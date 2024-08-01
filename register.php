@@ -1,3 +1,6 @@
+<?php
+ include 'connect.php'
+?>
 <!DOCTYPE html>
 <html>
 <style>
@@ -73,9 +76,44 @@ li a:hover:not(.active) {
   
 </ul>
 
-<h3>Using CSS to style an HTML Form</h3>
+<?php
+  if(isset($_REQUEST['user_id'])) {
+    $sql = "SELECT * FROM tb_user WHERE user_id='".$_REQUEST['user_id']."' ";
+    $query = $conn->query($sql);
+    $fet = $query->fetch_object();
+?>
 
+<h3>แก้ไขข้อมูลผู้ใช้</h3>
 <div>
+  <form action="api/api_edituser.php?user_id=<?php echo $fet->user_id; ?>" method="post"> 
+        <label for="username">Username</label>
+        <input type="text" id="fname" value="<?php echo $fet->username; ?>" name="username" placeholder="Your usernamename..">
+
+        <label for="password">Password</label>
+        <input type="text" id="lname" value="<?php echo $fet->password; ?>" name="password" placeholder="Your password..">
+
+        <label for="fullname">Fullname</label>
+        <input type="text" id="lname" value="<?php echo $fet->fullname; ?>" name="fullname" placeholder="Your Fullname..">
+   
+        <label for="tel">Phone number</label>
+        <input type="tel" id="lname" value="<?php echo $fet->tel; ?>" name="tel" placeholder="Your Phone number..">
+
+        <label for="email">Email</label>
+        <input type="email" id="lname" value="<?php echo $fet->email; ?>" name="email" placeholder="Your Email..">
+    
+        <label for="linetoken">Line Token</label>
+        <input type="text" id="lname" value="<?php echo $fet->linetoken; ?>" name="linetoken" placeholder="Your Line Token..">
+   
+    
+
+    
+  
+        <input type="submit" value="Submit">
+  </form>
+</div>
+    <?php }else{ ?>
+      <h3>เพิ่มข้อมูลผู้ใช้งาน</h3>
+      <div>
   <form action="api/api_register.php" method="post"> 
         <label for="username">Username</label>
         <input type="text" id="fname" name="username" placeholder="Your usernamename..">
@@ -102,6 +140,9 @@ li a:hover:not(.active) {
         <input type="submit" value="Submit">
   </form>
 </div>
+
+      <?php } ?>
+      
 
 </body>
 </html>
